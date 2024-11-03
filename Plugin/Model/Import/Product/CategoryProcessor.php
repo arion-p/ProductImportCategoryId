@@ -13,69 +13,54 @@
  * @link       https://github.com/arion-p/ProductImportCategoryId
  *
  */
-namespace Pse\ProductImportCategoryId\Model\Import\Product;
+namespace Pse\ProductImportCategoryId\Plugin\Model\Import\Product;
 
 use Magento\Framework\Exception\AlreadyExistsException;
 
-class CategoryProcessor extends \Magento\CatalogImportExport\Model\Import\Product\CategoryProcessor
+class CategoryProcessor
 {
     /**
      *
      * Returns IDs of categories by string path creating nonexistent ones.
      *
+     * @param \Magento\CatalogImportExport\Model\Import\Product\CategoryProcessor $subject
      * @param string $categoriesString
      * @param string $categoriesSeparator
      *
      * @return array
      *
      */
-    public function upsertCategories($categoriesString, $categoriesSeparator)
+    public function aroundUpsertCategories(
+        \Magento\CatalogImportExport\Model\Import\Product\CategoryProcessor $subject,
+        callable $proceed,
+        $categoriesString, $categoriesSeparator)
     {
         $categoriesIds = [];
         $categories    = explode($categoriesSeparator, $categoriesString);
-
+        $restCategories = [];
         
         foreach ($categories as $category) {
-            try {
                 /**
                  *
                  * @note Validate if category is a number and exists as a category ID
                  * @note To use this feature, the category name does not have to match with categories' IDs
                  *
                  */
-                if (is_numeric($category) && $this->getCategoryById($category)) {
+                if (is_numeric($category) && $subject->getCategoryById($category)) {
                     $categoriesIds[] = $category;
                 }
                 else {
-                    $categoriesIds[] = $this->upsertCategory($category);
+                    $restCategories[] = $category;
                 }
-            }
-            catch (AlreadyExistsException $e) {
-                $this->addFailedCategory($category, $e);
-            }
+        }
+
+        if(count($restCategories)) {
+            $restCategoriesString = implode($categoriesSeparator, $restCategories);
+            $restCategoryIds = $proceed($categoriesSeparator, $restCategoriesString);
+            $categoriesIds = array_merge($categoriesIds, $restCategoryIds);
         }
 
         return $categoriesIds;
     }
 
-    /**
-     *
-     * Add failed category
-     *
-     * @param string $category
-     * @param AlreadyExistsException $exception
-     *
-     * @return $this
-     *
-     */
-    private function addFailedCategory($category, $exception)
-    {
-        $this->failedCategories[] =
-            [
-                'category'  => $category,
-                'exception' => $exception,
-            ];
-
-        return $this;
-    }
 }

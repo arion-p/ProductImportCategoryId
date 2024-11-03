@@ -16,12 +16,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <!--
-    /**
-     *
-     * @note Rewrite Category Processor Uses On Import Feature
-     *
-     */
-    -->
-    <preference for="Magento\CatalogImportExport\Model\Import\Product\CategoryProcessor" type="Pse\ProductImportCategoryId\Model\Import\Product\CategoryProcessor" />
+    <type name="Magento\CatalogImportExport\Model\Import\Product\CategoryProcessor">
+        <plugin name="Pse_CategoryProcessor_Plugin" type="Pse\ProductImportCategoryId\Plugin\Model\Import\Product\CategoryProcessor" />
+    </type>
 </config>
