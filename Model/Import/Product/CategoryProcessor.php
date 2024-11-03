@@ -5,18 +5,19 @@
  *
  * @author     Enoch Data Systems <https://data.enoch.systems>
  * @author     C. M. de Picciotto <cmdepi@enochsystems.com>
+ * @author     PrecisionLab Sotware Engineering  <https://precisionlab.gr>
  * @copyright  Copyright 2018 Enoch Systems LLC
  * @license    Apache License 2.0
  * @package    ProductImportCategoryId
- * @version    1.0.0
- * @link       https://github.com/enochsystems/ProductImportCategoryId
+ * @version    1.1.0
+ * @link       https://github.com/arion-p/ProductImportCategoryId
  *
  */
-namespace Enoch\ProductImportCategoryId\Model\Import\Product;
+namespace Pse\ProductImportCategoryId\Model\Import\Product;
 
 use Magento\Framework\Exception\AlreadyExistsException;
 
-class CategoryProcessor extends \Magento\ProductImportCategoryId\Model\Import\Product\CategoryProcessor
+class CategoryProcessor extends \Magento\CatalogImportExport\Model\Import\Product\CategoryProcessor
 {
     /**
      *
@@ -33,6 +34,7 @@ class CategoryProcessor extends \Magento\ProductImportCategoryId\Model\Import\Pr
         $categoriesIds = [];
         $categories    = explode($categoriesSeparator, $categoriesString);
 
+        
         foreach ($categories as $category) {
             try {
                 /**

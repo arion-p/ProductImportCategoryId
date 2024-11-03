@@ -1,14 +1,19 @@
 {
-    "name": "enoch/module-product-import-category-id",
+    "name": "pse/product-import-category-id",
     "description": "Improved Magento Product Import with Category ID",
     "type": "magento2-module",
-    "version": "1.0.0",
-    "homepage": "https://data.enoch.systems/",
+    "version": "1.1.0",
+    "homepage": "https://precisionlab.gr/",
     "authors": [
         {
             "name": "Enoch Data Systems",
             "email": "info@enochsystems.com",
             "homepage": "https://data.enoch.systems/",
+        },
+        {
+            "name": "PrecisionLab Software Engineering",
+            "email": "info@precisionlab.gr",
+            "homepage": "https://precisionlab.gr/"
         }
     ],
     "autoload": {
@@ -16,7 +21,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "Enoch\\ProductImportCategoryId\\": ""
+            "Pse\\ProductImportCategoryId\\": ""
         }
     }
 }
